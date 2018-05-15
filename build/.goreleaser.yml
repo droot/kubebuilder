@@ -39,5 +39,5 @@ changelog:
      - '^test:'
 release:
   github:
-    owner: kubernetes-sigs
+    owner: droot
     name: kubebuilder
