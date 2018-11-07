@@ -263,6 +263,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.2.3" data-path="../basics/status_subresource.html">
+            
+                <a href="../basics/status_subresource.html">
+            
+                    
+                    Status Subresource
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -583,6 +596,38 @@
                 <span>
             
                     
+                    Client-Go
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.4.1" data-path="using_client_go_informers.html">
+            
+                <a href="using_client_go_informers.html">
+            
+                    
+                    Generated Informers
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
                     Deployment Workflow
             
                 </span>
@@ -592,7 +637,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="4.4.1" data-path="deploying_controller.html">
+        <li class="chapter " data-level="4.5.1" data-path="deploying_controller.html">
             
                 <a href="deploying_controller.html">
             
@@ -717,8 +762,7 @@ invoke it multiple times for the same object.</li>
         <span class="hljs-comment">// The object is being deleted</span>
         <span class="hljs-keyword">if</span> containsString(instance.ObjectMeta.Finalizers, myFinalizerName) {
             <span class="hljs-comment">// our finalizer is present, so lets handle our external dependency</span>
-            err := r.deleteExternalDependency(instance)
-            <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+            <span class="hljs-keyword">if</span> err := r.deleteExternalDependency(instance); err != <span class="hljs-literal">nil</span> {
                 <span class="hljs-comment">// if fail to delete the external dependency here, return with error</span>
                 <span class="hljs-comment">// so that it can be retried</span>
                 <span class="hljs-keyword">return</span> reconcile.Result{}, err
@@ -730,6 +774,9 @@ invoke it multiple times for the same object.</li>
                 <span class="hljs-keyword">return</span> reconcile.Result{Requeue: <span class="hljs-literal">true</span>}, <span class="hljs-literal">nil</span>
             }
         }
+
+        <span class="hljs-comment">// Our finalizer has finished, so the reconciler can do nothing.</span>
+        <span class="hljs-keyword">return</span> reconcile.Result{}, <span class="hljs-literal">nil</span>
     }
     ....
     ....
@@ -800,7 +847,7 @@ invoke it multiple times for the same object.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Using Finalizers","level":"4.2.4","depth":2,"next":{"title":"Webhooks","level":"4.3","depth":1,"ref":"","articles":[{"title":"What is a Webhook","level":"4.3.1","depth":2,"path":"beyond_basics/what_is_a_webhook.md","ref":"beyond_basics/what_is_a_webhook.md","articles":[]},{"title":"Webhook Example","level":"4.3.2","depth":2,"path":"beyond_basics/sample_webhook.md","ref":"beyond_basics/sample_webhook.md","articles":[]}]},"previous":{"title":"Creating Events","level":"4.2.3","depth":2,"path":"beyond_basics/creating_events.md","ref":"beyond_basics/creating_events.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","panel","sequence-diagrams","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"panel":{},"search":{},"sequence-diagrams":{"theme":"simple"},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[],"split":true,"theme":"light"},"ga":{"configuration":"auto","token":"UA-119864590-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Phillip Wittrock","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Kubebuilder Book","gitbook":">= 3.0.0"},"file":{"path":"beyond_basics/using_finalizers.md","mtime":"2018-10-05T18:51:47.845Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-22T21:02:37.732Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Using Finalizers","level":"4.2.4","depth":2,"next":{"title":"Webhooks","level":"4.3","depth":1,"ref":"","articles":[{"title":"What is a Webhook","level":"4.3.1","depth":2,"path":"beyond_basics/what_is_a_webhook.md","ref":"beyond_basics/what_is_a_webhook.md","articles":[]},{"title":"Webhook Example","level":"4.3.2","depth":2,"path":"beyond_basics/sample_webhook.md","ref":"beyond_basics/sample_webhook.md","articles":[]}]},"previous":{"title":"Creating Events","level":"4.2.3","depth":2,"path":"beyond_basics/creating_events.md","ref":"beyond_basics/creating_events.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","panel","sequence-diagrams","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"panel":{},"search":{},"sequence-diagrams":{"theme":"simple"},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[],"split":true,"theme":"light"},"ga":{"configuration":"auto","token":"UA-119864590-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Phillip Wittrock","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Kubebuilder Book","gitbook":">= 3.0.0"},"file":{"path":"beyond_basics/using_finalizers.md","mtime":"2018-10-29T18:12:59.916Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-07T22:21:45.124Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

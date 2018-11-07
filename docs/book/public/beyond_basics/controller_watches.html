@@ -265,6 +265,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.2.3" data-path="../basics/status_subresource.html">
+            
+                <a href="../basics/status_subresource.html">
+            
+                    
+                    Status Subresource
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -585,6 +598,38 @@
                 <span>
             
                     
+                    Client-Go
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.4.1" data-path="using_client_go_informers.html">
+            
+                <a href="using_client_go_informers.html">
+            
+                    
+                    Generated Informers
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
                     Deployment Workflow
             
                 </span>
@@ -594,7 +639,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="4.4.1" data-path="deploying_controller.html">
+        <li class="chapter " data-level="4.5.1" data-path="deploying_controller.html">
             
                 <a href="deploying_controller.html">
             
@@ -681,7 +726,7 @@
 <p>This chapter describes how to use the controller package functions to configure Controllers to watch
 Resources.</p>
 <p><a href="https://godoc.org/sigs.k8s.io/controller-runtime" target="_blank">Link to reference documentation</a></p>
-<div class="api-method"><div class="api-method-definition"><h2 id="watching-controller-resource">Watching Controller Resource</h2>
+<div class="api-method"><div class="api-method-definition"><h2 id="watching-the-controller-resource">Watching the Controller Resource</h2>
 <p>Controllers may watch Resources and trigger Reconcile calls with the key of the
 object from the watch event. </p>
 <p>This example configures a controller to watch for Pod events, and call Reconcile with
@@ -761,13 +806,36 @@ mapFn := handler.ToRequestsFunc(
             }},
         }
     })
+
+
+<span class="hljs-comment">// &apos;UpdateFunc&apos; and &apos;CreateFunc&apos; used to judge if a event about the object is</span>
+<span class="hljs-comment">// what we want. If that is true, the event will be processed by the reconciler.</span>
+p := predicate.Funcs{
+    UpdateFunc: <span class="hljs-keyword">func</span>(e event.UpdateEvent) <span class="hljs-keyword">bool</span> {
+        <span class="hljs-comment">// The object doesn&apos;t contain label &quot;foo&quot;, so the event will be</span>
+        <span class="hljs-comment">// ignored.</span>
+        <span class="hljs-keyword">if</span> _, ok := e.MetaOld.GetLabels()[<span class="hljs-string">&quot;foo&quot;</span>]; !ok {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+        }
+        <span class="hljs-keyword">return</span> e.ObjectOld != e.ObjectNew
+    },
+    CreateFunc: <span class="hljs-keyword">func</span>(e event.CreateEvent) <span class="hljs-keyword">bool</span> {
+        <span class="hljs-keyword">if</span> _, ok := e.Meta.GetLabels()[<span class="hljs-string">&quot;foo&quot;</span>]; !ok {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    },
+}
+
 <span class="hljs-comment">// Watch Deployments and trigger Reconciles for objects</span>
 <span class="hljs-comment">// mapped from the Deployment in the event</span>
 err := c.Watch(
-        &amp;source.Kind{Type: &amp;appsv1.Deployment{}},
-        &amp;handler.EnqueueRequestsFromMapFunc{
-            ToRequests: mapFn,
-        })
+    &amp;source.Kind{Type: &amp;appsv1.Deployment{}},
+    &amp;handler.EnqueueRequestsFromMapFunc{
+        ToRequests: mapFn,
+    },
+    <span class="hljs-comment">// Comment it if default predicate fun is used.</span>
+    p)
 <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
     <span class="hljs-keyword">return</span> err
 }
@@ -823,7 +891,7 @@ err := ctrl.Watch(
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Controller Watch Functions","level":"4.2.2","depth":2,"next":{"title":"Creating Events","level":"4.2.3","depth":2,"path":"beyond_basics/creating_events.md","ref":"beyond_basics/creating_events.md","articles":[]},"previous":{"title":"Controllers For Core Resources","level":"4.2.1","depth":2,"path":"beyond_basics/controllers_for_core_resources.md","ref":"beyond_basics/controllers_for_core_resources.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","panel","sequence-diagrams","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"panel":{},"search":{},"sequence-diagrams":{"theme":"simple"},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[],"split":true,"theme":"light"},"ga":{"configuration":"auto","token":"UA-119864590-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Phillip Wittrock","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Kubebuilder Book","gitbook":">= 3.0.0"},"file":{"path":"beyond_basics/controller_watches.md","mtime":"2018-10-22T21:01:15.609Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-22T21:02:37.732Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Controller Watch Functions","level":"4.2.2","depth":2,"next":{"title":"Creating Events","level":"4.2.3","depth":2,"path":"beyond_basics/creating_events.md","ref":"beyond_basics/creating_events.md","articles":[]},"previous":{"title":"Controllers For Core Resources","level":"4.2.1","depth":2,"path":"beyond_basics/controllers_for_core_resources.md","ref":"beyond_basics/controllers_for_core_resources.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","panel","sequence-diagrams","ga"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"panel":{},"search":{},"sequence-diagrams":{"theme":"simple"},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-api":{"languages":[],"split":true,"theme":"light"},"ga":{"configuration":"auto","token":"UA-119864590-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Phillip Wittrock","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"The Kubebuilder Book","gitbook":">= 3.0.0"},"file":{"path":"beyond_basics/controller_watches.md","mtime":"2018-11-07T22:21:05.763Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-07T22:21:45.124Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
